@@ -166,12 +166,16 @@ case 'website':
     } catch (\Exception $exception) {
         $response_status_code = 0;
         $response_time = 0;
+        $curl_info = curl_getinfo(\Unirest\Request::getCurlHandle());
         $error = [
             'type' => 'exception',
             'code' => curl_errno(\Unirest\Request::getCurlHandle()),
             'message' => curl_error(\Unirest\Request::getCurlHandle()),
+            'curl_info' => $curl_info,
+            'exception_message' => $exception->getMessage(), // Include the exception message
+            'exception_trace' => $exception->getTraceAsString(), // Include the stack trace
         ];
-
+    
         /*  :)  */
         $is_ok = 0;
     }
