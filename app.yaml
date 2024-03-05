@@ -1,8 +1,0 @@
-runtime: php
-env: flex
-
-runtime_config:
-  document_root: .
-
-automatic_scaling:
-  target_cpu_utilization: 0.65
