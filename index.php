@@ -147,7 +147,7 @@ case 'website':
             $error = ['type' => 'response_status_code'];
         }
 
-        if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check) {
+        if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check && !in_array($method, ['head', 'options'])) {
             error_log("Checking for content: " . $_POST['settings']->content_check);  // Debug line
             error_log("Response body: " . $response->raw_body);  // Debug line
             if(strpos($response->raw_body, $_POST['settings']->content_check) === false) {
