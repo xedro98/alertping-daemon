@@ -148,6 +148,7 @@ case 'website':
         }
 
         if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check) {
+            error_log("Checking for content: " . $_POST['settings']->content_check);  // Debug line
             error_log("Response body: " . $response->raw_body);  // Debug line
             if(strpos($response->raw_body, $_POST['settings']->content_check) === false) {
                 $is_ok = 0;
