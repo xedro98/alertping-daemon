@@ -25,6 +25,7 @@ foreach($required as $required_field) {
 
 /* Define some needed vars */
 $_POST['settings'] = json_decode($_POST['settings']);
+error_log(print_r($_POST['settings'], true));  // Debug line
 
 switch($_POST['type']) {
 
@@ -145,6 +146,15 @@ case 'website':
             $is_ok = 0;
             $error = ['type' => 'response_status_code'];
         }
+
+        if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check && !in_array($method, ['head', 'options'])) {
+            error_log("Checking for content: " . $_POST['settings']->content_check);  // Debug line
+            error_log("Response body: " . $response->raw_body);  // Debug line
+            if(stripos($response->raw_body, $_POST['settings']->content_check) === false) {
+                $is_ok = 0;
+                $error = ['type' => 'content_check'];
+            }
+        }  
 
         if(isset($_POST['settings']->response_body) && $_POST['settings']->response_body && mb_strpos($response->raw_body, $_POST['settings']->response_body) === false) {
             $is_ok = 0;
