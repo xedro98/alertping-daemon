@@ -153,6 +153,9 @@ case 'website':
             if(mb_strpos($response->raw_body, $_POST['settings']->content_check) === false) {
                 $is_ok = 0;
                 $error = ['type' => 'content_check'];
+                error_log("Content not found");  // Debug line
+            } else {
+                error_log("Content found");  // Debug line
             }
         }  
 
