@@ -137,14 +137,22 @@ case 'website':
         /* Check the response to see how we interpret the results */
         $is_ok = 1;
 
-        /* Check against response code */
-        if(
-            (is_array($_POST['settings']->response_status_code) && !in_array($response_status_code, $_POST['settings']->response_status_code))
-            || (!is_array($_POST['settings']->response_status_code) && $response_status_code != ($_POST['settings']->response_status_code ?? 200))
-        ) {
+        /* Check against response code and content */
+    if(
+        (is_array($_POST['settings']->response_status_code) && !in_array($response_status_code, $_POST['settings']->response_status_code))
+        || (!is_array($_POST['settings']->response_status_code) && $response_status_code != ($_POST['settings']->response_status_code ?? 200))
+    ) {
+        $is_ok = 0;
+        $error = ['type' => 'response_status_code'];
+    }
+
+    /* Add content check here, if content_check is set in settings */
+    if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check) {
+        if(mb_strpos($response->raw_body, $_POST['settings']->content_check) === false) {
             $is_ok = 0;
-            $error = ['type' => 'response_status_code'];
+            $error = ['type' => 'content_check'];
         }
+    }
 
         if(isset($_POST['settings']->response_body) && $_POST['settings']->response_body && mb_strpos($response->raw_body, $_POST['settings']->response_body) === false) {
             $is_ok = 0;
