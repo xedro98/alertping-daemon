@@ -147,17 +147,7 @@ case 'website':
             $error = ['type' => 'response_status_code'];
         }
 
-        if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check && !in_array($method, ['head', 'options'])) {
-            error_log("Checking for content: " . $_POST['settings']->content_check);  // Debug line
-            error_log("Response body: " . $response->raw_body);  // Debug line
-            if(mb_strpos($response->raw_body, $_POST['settings']->content_check) === false) {
-                $is_ok = 0;
-                $error = ['type' => 'content_check'];
-                error_log("Content not found, setting is_ok to 0");  // Debug line
-            } else {
-                error_log("Content found");  // Debug line
-            }
-        }  
+        
 
         if(isset($_POST['settings']->response_body) && $_POST['settings']->response_body && mb_strpos($response->raw_body, $_POST['settings']->response_body) === false) {
             $is_ok = 0;
@@ -175,6 +165,18 @@ case 'website':
                 }
             }
         }
+
+        if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check && !in_array($method, ['head', 'options'])) {
+            error_log("Checking for content: " . $_POST['settings']->content_check);  // Debug line
+            error_log("Response body: " . $response->raw_body);  // Debug line
+            if(mb_strpos($response->raw_body, $_POST['settings']->content_check) === false) {
+                $is_ok = 0;
+                $error = ['type' => 'content_check'];
+                error_log("Content not found, setting is_ok to 0");  // Debug line
+            } else {
+                error_log("Content found");  // Debug line
+            }
+        }  
 
     } catch (\Exception $exception) {
         $response_status_code = 0;
