@@ -150,7 +150,7 @@ case 'website':
         if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check && !in_array($method, ['head', 'options'])) {
             error_log("Checking for content: " . $_POST['settings']->content_check);  // Debug line
             error_log("Response body: " . $response->raw_body);  // Debug line
-            if(stripos($response->raw_body, $_POST['settings']->content_check) === false) {
+            if(mb_strpos($response->raw_body, $_POST['settings']->content_check) === false) {
                 $is_ok = 0;
                 $error = ['type' => 'content_check'];
             }
