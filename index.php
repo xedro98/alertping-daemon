@@ -147,13 +147,13 @@ case 'website':
             $error = ['type' => 'response_status_code'];
         }
 
-         /* Add content check here, if content_check is set in settings */
-    if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check) {
-        if(strpos($response->raw_body, $_POST['settings']->content_check) === false) {
-            $is_ok = 0;
-            $error = ['type' => 'content_check'];
+        if(isset($_POST['settings']->content_check) && $_POST['settings']->content_check) {
+            error_log("Response body: " . $response->raw_body);  // Debug line
+            if(strpos($response->raw_body, $_POST['settings']->content_check) === false) {
+                $is_ok = 0;
+                $error = ['type' => 'content_check'];
+            }
         }
-    }
 
         if(isset($_POST['settings']->response_body) && $_POST['settings']->response_body && mb_strpos($response->raw_body, $_POST['settings']->response_body) === false) {
             $is_ok = 0;
