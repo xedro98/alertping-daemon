@@ -181,12 +181,21 @@ case 'website':
     break;
     
 }
-    /* Prepare the answer */
+
+if($is_ok != 1) {
+    $url = urlencode($_POST['target']);
+    $screenshotUrl = "https://screenshot-72mn.onrender.com/screenshot?url=$url";
+    $screenshot = file_get_contents($screenshotUrl);
+} else {
+    $screenshot = null;
+}
+
 $response = [
     'is_ok' => $is_ok,
     'response_time' => $response_time,
     'response_status_code' => $response_status_code,
-    'error' => $error ?? null
+    'error' => $error ?? null,
+    'screenshot' => $screenshot
 ];
 
 echo json_encode($response);
