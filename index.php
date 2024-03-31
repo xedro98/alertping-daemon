@@ -181,26 +181,12 @@ case 'website':
     break;
     
 }
-
-$url = urlencode($_POST['target']);
-$screenshotUrl = "https://screenshot-72mn.onrender.com/screenshot?url=$url";
-
-$screenshot = null;
-try {
-    $screenshot = file_get_contents($screenshotUrl);
-} catch (Exception $e) {
-    $error = [
-        'type' => 'screenshot_error',
-        'message' => $e->getMessage(),
-    ];
-}
-
+    /* Prepare the answer */
 $response = [
     'is_ok' => $is_ok,
     'response_time' => $response_time,
     'response_status_code' => $response_status_code,
-    'error' => $error ?? null,
-    'screenshot' => $screenshot
+    'error' => $error ?? null
 ];
 
 echo json_encode($response);
