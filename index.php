@@ -182,12 +182,17 @@ case 'website':
     
 }
 
-if($is_ok != 1) {
-    $url = urlencode($_POST['target']);
-    $screenshotUrl = "https://screenshot-72mn.onrender.com/screenshot?url=$url";
+$url = urlencode($_POST['target']);
+$screenshotUrl = "https://screenshot-72mn.onrender.com/screenshot?url=$url";
+
+$screenshot = null;
+try {
     $screenshot = file_get_contents($screenshotUrl);
-} else {
-    $screenshot = null;
+} catch (Exception $e) {
+    $error = [
+        'type' => 'screenshot_error',
+        'message' => $e->getMessage(),
+    ];
 }
 
 $response = [
